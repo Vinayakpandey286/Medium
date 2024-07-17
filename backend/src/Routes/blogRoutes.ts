@@ -2,6 +2,10 @@ import { Hono } from "hono";
 import { PrismaClient } from "@prisma/client/edge";
 import { withAccelerate } from "@prisma/extension-accelerate";
 import { verify } from "hono/jwt";
+import {
+  createBlogInput,
+  updateBlogInput,
+} from "@vinayakpandey286/medium-common";
 
 export const blogRouter = new Hono<{
   Bindings: {
@@ -55,7 +59,7 @@ blogRouter.get("/bulk", async (c) => {
       return c.text("No blogs");
     }
   } catch (error) {
-    console.log("error", error)
+    console.log("error", error);
 
     c.status(403);
     return c.json({
@@ -98,6 +102,15 @@ blogRouter.post("/", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
 
+  const { success } = createBlogInput.safeParse(body);
+
+  if (!success) {
+    c.status(400);
+    return c.json({
+      message: "Invalid Parameters",
+    });
+  }
+
   const userId = c.get("jwtPayload");
 
   try {
@@ -105,7 +118,7 @@ blogRouter.post("/", async (c) => {
       data: {
         title: body.title,
         content: body.content,
-        published: body.published || false,
+        published: body.published,
         authorID: userId,
       },
     });
@@ -131,6 +144,15 @@ blogRouter.put("/", async (c) => {
     datasourceUrl: c.env.DATABASE_URL,
   }).$extends(withAccelerate());
 
+  const { success } = updateBlogInput.safeParse(body);
+
+  if (!success) {
+    c.status(400);
+    return c.json({
+      message: "Invalid Parameters",
+    });
+  }
+
   try {
     const blog = await prisma.post.update({
       where: {
@@ -139,7 +161,7 @@ blogRouter.put("/", async (c) => {
       data: {
         title: body.title,
         content: body.content,
-        published: body.published || false,
+        published: body.published,
       },
     });
 

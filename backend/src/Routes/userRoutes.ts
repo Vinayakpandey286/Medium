@@ -48,6 +48,8 @@ userRouter.post("/signin", async (c) => {
       },
     });
 
+    console.log(user)
+
     if (user) {
       const token = await sign({ id: user.id }, c.env.JWT_SECRET);
       return c.json({

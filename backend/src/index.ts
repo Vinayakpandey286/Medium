@@ -14,6 +14,6 @@ const app = new Hono<{
 }>();
 
 app.route("/api/v1/user", userRouter);
-app.route("/api/v1/Blog", blogRouter);
+app.route("/api/v1/blogs", blogRouter);
 
 export default app;

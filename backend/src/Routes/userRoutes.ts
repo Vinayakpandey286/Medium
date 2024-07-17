@@ -40,7 +40,7 @@ userRouter.post("/signup", async (c) => {
     });
   } catch (error) {
     c.status(400);
-    return c.text("Inavlid");
+    return c.text("Invalid");
   }
 });
 
@@ -78,7 +78,8 @@ userRouter.post("/signin", async (c) => {
       });
     }
   } catch (error) {
+    console.log(error)
     c.status(400);
-    return c.text("Inavlid");
+    return c.text("Invalid");
   }
 });

@@ -40,6 +40,30 @@ blogRouter.use(async (c, next) => {
   }
 });
 
+blogRouter.get("/bulk", async (c) => {
+  const prisma = new PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL,
+  }).$extends(withAccelerate());
+
+  try {
+    const blogs = await prisma.post.findMany();
+    if (blogs) {
+      return c.json({
+        blogs,
+      });
+    } else {
+      return c.text("No blogs");
+    }
+  } catch (error) {
+    console.log("error", error)
+
+    c.status(403);
+    return c.json({
+      message: "something went wrong",
+    });
+  }
+});
+
 blogRouter.get("/:id", async (c) => {
   const id = await c.req.param("id");
 
@@ -65,28 +89,6 @@ blogRouter.get("/:id", async (c) => {
   } catch (error) {
     c.status(400);
     return c.text("Something went wrong");
-  }
-});
-
-blogRouter.get("/bulk", async (c) => {
-  const prisma = new PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    const blogs = await prisma.post.findMany();
-    if (blogs) {
-      c.json({
-        blogs,
-      });
-    } else {
-      c.text("No blogs");
-    }
-  } catch (error) {
-    c.status(403);
-    return c.json({
-      message: "something went wrong",
-    });
   }
 });
 

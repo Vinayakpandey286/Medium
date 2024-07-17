@@ -34,7 +34,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// .wrangler/tmp/bundle-fWhwEo/checked-fetch.js
+// .wrangler/tmp/bundle-16Iev0/checked-fetch.js
 function checkURL(request, init) {
   const url = request instanceof URL ? request : new URL(
     (typeof request === "string" ? new Request(request, init) : request).url
@@ -52,7 +52,7 @@ function checkURL(request, init) {
 }
 var urls;
 var init_checked_fetch = __esm({
-  ".wrangler/tmp/bundle-fWhwEo/checked-fetch.js"() {
+  ".wrangler/tmp/bundle-16Iev0/checked-fetch.js"() {
     "use strict";
     urls = /* @__PURE__ */ new Set();
     globalThis.fetch = new Proxy(globalThis.fetch, {
@@ -6607,11 +6607,11 @@ var require_default_index = __commonJS({
   }
 });
 
-// .wrangler/tmp/bundle-fWhwEo/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-16Iev0/middleware-loader.entry.ts
 init_checked_fetch();
 init_modules_watch_stub();
 
-// .wrangler/tmp/bundle-fWhwEo/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-16Iev0/middleware-insertion-facade.js
 init_checked_fetch();
 init_modules_watch_stub();
 
@@ -8945,6 +8945,27 @@ blogRouter.use(async (c, next) => {
     return c.text("No Token");
   }
 });
+blogRouter.get("/bulk", async (c) => {
+  const prisma = new import_edge2.PrismaClient({
+    datasourceUrl: c.env.DATABASE_URL
+  }).$extends(withAccelerate());
+  try {
+    const blogs = await prisma.post.findMany();
+    if (blogs) {
+      return c.json({
+        blogs
+      });
+    } else {
+      return c.text("No blogs");
+    }
+  } catch (error) {
+    console.log("error", error);
+    c.status(403);
+    return c.json({
+      message: "something went wrong"
+    });
+  }
+});
 blogRouter.get("/:id", async (c) => {
   const id = await c.req.param("id");
   const prisma = new import_edge2.PrismaClient({
@@ -8967,26 +8988,6 @@ blogRouter.get("/:id", async (c) => {
   } catch (error) {
     c.status(400);
     return c.text("Something went wrong");
-  }
-});
-blogRouter.get("/bulk", async (c) => {
-  const prisma = new import_edge2.PrismaClient({
-    datasourceUrl: c.env.DATABASE_URL
-  }).$extends(withAccelerate());
-  try {
-    const blogs = await prisma.post.findMany();
-    if (blogs) {
-      c.json({
-        blogs
-      });
-    } else {
-      c.text("No blogs");
-    }
-  } catch (error) {
-    c.status(403);
-    return c.json({
-      message: "something went wrong"
-    });
   }
 });
 blogRouter.post("/", async (c) => {
@@ -9097,7 +9098,7 @@ var jsonError = async (request, env, _ctx, middlewareCtx) => {
 };
 var middleware_miniflare3_json_error_default = jsonError;
 
-// .wrangler/tmp/bundle-fWhwEo/middleware-insertion-facade.js
+// .wrangler/tmp/bundle-16Iev0/middleware-insertion-facade.js
 var __INTERNAL_WRANGLER_MIDDLEWARE__ = [
   middleware_ensure_req_body_drained_default,
   middleware_miniflare3_json_error_default
@@ -9128,7 +9129,7 @@ function __facade_invoke__(request, env, ctx, dispatch, finalMiddleware) {
   ]);
 }
 
-// .wrangler/tmp/bundle-fWhwEo/middleware-loader.entry.ts
+// .wrangler/tmp/bundle-16Iev0/middleware-loader.entry.ts
 var __Facade_ScheduledController__ = class {
   constructor(scheduledTime, cron, noRetry) {
     this.scheduledTime = scheduledTime;

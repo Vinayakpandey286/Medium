@@ -59,8 +59,6 @@ blogRouter.get("/bulk", async (c) => {
       return c.text("No blogs");
     }
   } catch (error) {
-    console.log("error", error);
-
     c.status(403);
     return c.json({
       message: "something went wrong",

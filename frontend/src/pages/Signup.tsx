@@ -6,7 +6,7 @@ const signup = () => {
     <div>
       <div className="grid grid-cols-1 lg:grid-cols-2">
         <div>
-          <Auth />
+          <Auth  type="signup"/>
         </div>
         <div className="hidden lg:block">
           <Quote />

@@ -4,11 +4,14 @@ import Signin from "./pages/Signin";
 import Blog from "./pages/Blog";
 import Blogs from "./pages/Blogs";
 import Publish from "./pages/Publish";
+import Appbar from "./components/Appbar";
 
 function App() {
   return (
     <>
+    <div>
       <BrowserRouter>
+      <Appbar/>
         <Routes>
           <Route path="/signup" element={<Signup />} />
           <Route path="/signin" element={<Signin />} />
@@ -18,6 +21,7 @@ function App() {
           <Route path="/publish" element={<Publish />} />
         </Routes>
       </BrowserRouter>
+      </div>
     </>
   );
 }

@@ -2,6 +2,7 @@ import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../config";
+import Appbar from "../components/Appbar";
 
 const Publish = () => {
   const [title, setTitle] = useState("");
@@ -10,6 +11,8 @@ const Publish = () => {
 
   return (
     <div>
+      <Appbar />
+
       <div className="flex justify-center w-full pt-8">
         <div className="max-w-screen-lg w-full">
           <input
@@ -33,7 +36,7 @@ const Publish = () => {
                 {
                   title,
                   content: description,
-                  publish:true
+                  publish: true,
                 },
                 {
                   headers: {
